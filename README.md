@@ -21,17 +21,14 @@ cdk deploy --all --require-approval never
 ## Request Access to Foundation Model on Amazon Bedrock
 1. Go to Amazon Bedrock Console
 2. Open Model Access under Bedrock configurations
-3. Request Access to `Claude 3.5 Sonnet V2`
+3. Request Access to LLM model and embedding model
 
 ## Usage
-1. Go to Amazon SageMakerAI on your AWS Management Console.
+1. Go to Amazon SageMakerAI on your AWS Management Console
 2. Open Notebook named `contextual-rag-workshop-instance`
-3. Move to 
+3. Move on to path named `notebook`
 ```bash
-cd ~~
+cd contextual-rag-workshop-instance/notebook
 ```
-4. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-5. Configure the `.env` file (sea [usage.md](./usage.md) for details)
+4. Configure with `0_configuration.ipynb` first
+5. Play around with following notebooks
