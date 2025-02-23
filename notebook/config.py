@@ -32,10 +32,6 @@ class Config:
         password: None = os.getenv('OPENSEARCH_PASSWORD')
 
     @dataclass
-    class DynamoDBConfig:
-        table_name: str = os.getenv('DYNAMODB_TABLE_NAME', 'contextual_rag_result')
-
-    @dataclass
     class RerankerConfig:
         reranker_model_id: str = os.getenv('RERANKER_MODEL_ID')
         aws_region: str = os.getenv('RERANKER_AWS_REGION', 'us-west-2')
@@ -58,7 +54,6 @@ class Config:
         self.bedrock = self.BedrockConfig()
         self.model = self.ModelConfig()
         self.opensearch = self.OpenSearchConfig()
-        self.dynamodb = self.DynamoDBConfig()
         self.reranker = self.RerankerConfig()
         self.rank_fusion = self.RankFusionConfig()
         self.app = self.AppConfig()
