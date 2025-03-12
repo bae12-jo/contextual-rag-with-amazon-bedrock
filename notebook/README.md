@@ -7,7 +7,6 @@
 - Amazon Bedrock Foundation Model을 활용한 텍스트 생성
 - 임베딩 기반 유사도 검색(KNN) 및 키워드 기반 검색(BM25) 하이브리드 검색
 - Rank Fusion과 Cross-encoder Reranking을 통한 검색 결과 최적화
-- DynamoDB를 활용한 결과 저장 및 관리
 
 ## 시스템 구성
 
@@ -34,9 +33,6 @@ OPENSEARCH_DOMAIN_NAME=
 OPENSEARCH_DOCUMENT_NAME=
 OPENSEARCH_USER=
 OPENSEARCH_PASSWORD=
-
-# DynamoDB Configuration
-DYNAMODB_TABLE_NAME=
 
 # Reranker Configuration
 RERANKER_AWS_REGION=
