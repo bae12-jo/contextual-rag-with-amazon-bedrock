@@ -34,7 +34,7 @@ class OpensearchService:
         }
 
         try:
-            response = self.opensearch_client.search(index=f"{self.prefix}_{index_name}", body=query)
+            response = self.opensearch_client.search(index=f"{index_name}", body=query)
             return [self._format_search_result(hit, 'knn') 
                    for hit in response['hits']['hits']]
         except Exception as e:
@@ -56,7 +56,7 @@ class OpensearchService:
         }
 
         try:
-            response = self.opensearch_client.search(index=f"{self.prefix}_{index_name}", body=query)
+            response = self.opensearch_client.search(index=f"{index_name}", body=query)
             return [self._format_search_result(hit, 'bm25') 
                    for hit in response['hits']['hits']]
         except Exception as e:

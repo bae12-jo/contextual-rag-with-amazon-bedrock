@@ -11,7 +11,7 @@ export class SagemakerNotebookStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-    
+
     // IAM Role
     const SageMakerNotebookinstanceRole = new iam.Role(this, 'SageMakerNotebookInstanceRole', {
       assumedBy: new iam.ServicePrincipal('sagemaker.amazonaws.com'),
@@ -24,32 +24,32 @@ export class SagemakerNotebookStack extends cdk.Stack {
         iam.ManagedPolicy.fromAwsManagedPolicyName('SecretsManagerReadWrite')
       ],
     });
-    
-    
+
+
     // SageMaker Notebook Instance Lifecycle Configuration
-    
+
     const onCreateScriptPath1 = path.join(__dirname, 'install_packages.sh')
     const onCreateScriptContent = fs.readFileSync(onCreateScriptPath1, 'utf-8')
-    
+
     const cfnNotebookInstanceLifecycleConfig = new sagemaker.CfnNotebookInstanceLifecycleConfig(this, 'MyCfnNotebookInstanceLifecycleConfig', /* all optional props */ {
       notebookInstanceLifecycleConfigName: 'notebookInstanceLifecycleConfig',
       onCreate: [{
-          content: cdk.Fn.base64(onCreateScriptContent),
-        }],
+        content: cdk.Fn.base64(onCreateScriptContent),
+      }],
       onStart: [],
     });
-    
-    
+
+
     // SageMaker Notebook Instance
-    
+
     const cfnNotebookInstance = new sagemaker.CfnNotebookInstance(this, 'MyCfnNotebookInstance', {
       instanceType: 'ml.m5.xlarge',
       roleArn: SageMakerNotebookinstanceRole.roleArn,
-    
+
       // the properties below are optional
       //acceleratorTypes: ['acceleratorTypes'],
       //additionalCodeRepositories: ['additionalCodeRepositories'],
-      defaultCodeRepository: 'https://github.com/beryh/contextual-rag.git',
+      defaultCodeRepository: 'https://github.com/bae12-jo/contextual-rag-with-amazon-bedrock.git',
       directInternetAccess: 'Enabled',
       //instanceMetadataServiceConfiguration: {
       //  minimumInstanceMetadataServiceVersion: 'minimumInstanceMetadataServiceVersion',
@@ -67,7 +67,7 @@ export class SagemakerNotebookStack extends cdk.Stack {
       //}],
       volumeSizeInGb: 10,
     });
-  
+
 
   }
 }

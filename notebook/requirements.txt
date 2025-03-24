@@ -3,3 +3,4 @@ requests>=2.31.0
 requests-aws4auth>=1.2.0
 opensearch-py>=2.3.0
 python-dotenv>=1.0.0
+ipywidgets

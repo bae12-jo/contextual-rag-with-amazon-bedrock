@@ -13,11 +13,32 @@ class ContextualRAGService:
         self.opensearch_service = opensearch_service
         self.reranker_service = reranker_service
 
-    def do(self, question: str, index_name: str, use_hybrid: bool, search_limit: int):
-        # get timestamp
+    def do(self, question: str, index_name: str = None, document_name: str = None, 
+           chunk_size: str = None, use_hybrid: bool = True, use_contextual: bool = False, search_limit: int = 5):
+        """
+        Process a question using RAG approach.
+        
+        Args:
+            question: Question to be answered
+            index_name: Direct index name to use (if provided)
+            document_name: Document name component for building index name
+            chunk_size: Chunk size component for building index name
+            use_hybrid: Whether to use hybrid search or just KNN
+            use_contextual: Whether to use contextual index prefix
+            search_limit: Number of results to return
+            
+        Returns:
+            Dictionary containing the RAG results
+        """
         start_dt = datetime.now()
 
-        # search
+        # Build index name if not directly provided
+        if not index_name and document_name and chunk_size:
+            index_name = f"{'contextual_' if use_contextual else ''}{document_name}_{chunk_size}"
+        elif not index_name:
+            raise ValueError("Either index_name or both document_name and chunk_size must be provided")
+
+        # Generate embedding and search
         embedding = self.bedrock_service.embedding(question)
         
         if use_hybrid:
@@ -27,6 +48,7 @@ class ContextualRAGService:
         else:
             search_results = self.opensearch_service.search_by_knn(embedding, index_name, search_limit)
 
+        # Prepare context
         docs = ""
         for result in search_results:
             docs += f"- {result['content']}\n\n"
@@ -55,10 +77,3 @@ class ContextualRAGService:
         }
 
         return result
-    
-    def do(self, question: str, document_name: str, chunk_size: str, use_hybrid: bool, use_contextual: bool, search_limit: int):
-        # build actual index name
-        index_name = f"{'contextual_' if use_contextual else ''}{document_name}_{chunk_size}"
-
-        return self.do(question=question, index_name=index_name, use_hybrid=use_hybrid, search_limit=search_limit)
-
